@@ -14,12 +14,12 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-  late String location;
-  late String wind;
-  late String humidity;
-  late String temperature;
-  late String weatherType;
-  late String weatherDescription;
+  // late String location;
+  // late String wind;
+  // late String humidity;
+  // late String temperature;
+  // late String weatherType;
+  // late String weatherDescription;
 
   void startApp(BuildContext context) async {
     try {
@@ -27,39 +27,41 @@ class _LoadingPageState extends State<LoadingPage> {
       Position position = await getPosition();
 
       //create worker object and fetch weather data
-      Worker worker = Worker(city_name: 'pokhara');
-          // Worker(latitude: position.latitude, longitude: position.longitude);
+      Worker worker =
+          Worker(latitude: position.latitude, longitude: position.longitude);
       await worker.getdata();
 
       //set state with weather data retrieved from worker object
       setState(() {
-        location = worker.location;
-        wind = worker.wind;
-        humidity = worker.humidity;
-        temperature = worker.temperature;
-        weatherDescription = worker.weatherDescription;
-        weatherType = worker.weatherType;
+        // location = worker.location;
+        // wind = worker.wind;
+        // humidity = worker.humidity;
+        // temperature = worker.temperature;
+        // weatherDescription = worker.weatherDescription;
+        // weatherType = worker.weatherType;
       });
 
       //Navigating to the home page with weather data
       Navigator.pushReplacementNamed(context, '/home', arguments: {
-        'loc': location,
-        'wind': wind,
-        'hum': humidity,
-        'temp': temperature,
-        'weatherDesp': weatherDescription,
-        'weather': weatherType,
+        // 'loc': location,
+        // 'wind': wind,
+        // 'hum': humidity,
+        // 'temp': temperature,
+        // 'weatherDesp': weatherDescription,
+        // 'weather': weatherType,
       });
     } catch (e) {
-      print('Error $e');
+      print('Error- $e');
     }
   }
 
   Future getPosition() async {
     try {
       return await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.medium); // unless exact location required low/medium is recommended
+          desiredAccuracy: LocationAccuracy
+              .medium); // unless exact location required low/medium is recommended
     } catch (e) {
+      print("Error: $e");
       return e;
     }
   }
@@ -113,7 +115,7 @@ class _LoadingPageState extends State<LoadingPage> {
                     alignment: AlignmentDirectional(0, -1.2),
                     child: Container(
                       height: size.height * 0.43,
-                      width: size.height*0.71,
+                      width: size.height * 0.71,
                       decoration: const BoxDecoration(
                         shape: BoxShape.rectangle,
                         color: Color(0xFFFFAB40),
@@ -126,15 +128,24 @@ class _LoadingPageState extends State<LoadingPage> {
                       decoration: BoxDecoration(color: Colors.transparent),
                     ),
                   ),
-                  Center(child: Column(
+                  Center(
+                      child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.fromLTRB(10, 50, 10, 10),
-                        height: size.height*0.3,
-                        width: size.height*0.3,
-                        child: Image(image: AssetImage('assets/images/logo.png'),)),                      
-                      Text('Weather App', style: GoogleFonts.crimsonText( color: Colors.white, fontWeight: FontWeight.w700, fontSize: 30)),
-                      SizedBox(height: size.height*0.245,),
+                          margin: EdgeInsets.fromLTRB(10, 50, 10, 10),
+                          height: size.height * 0.3,
+                          width: size.height * 0.3,
+                          child: Image(
+                            image: AssetImage('assets/images/logo.png'),
+                          )),
+                      Text('Weather App',
+                          style: GoogleFonts.crimsonText(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 30)),
+                      SizedBox(
+                        height: size.height * 0.245,
+                      ),
                       const SpinKitFadingCircle(
                         color: Colors.white,
                         size: 50.0,
