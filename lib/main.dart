@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/pages/homepage.dart';
 import 'package:weather_app/pages/loadingpage.dart';
-import 'package:weather_app/pages/test.dart';
-// import 'dart:ui';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -18,11 +17,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       title: 'Weather App',
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const TestScreen(),
-        // '/home': (context) => const HomePage(),
-      },
+      home: HomePage(),
+      // initialRoute: '/',
+      // routes: {
+      //   '/': (context) => const LoadingPage(),
+      //   '/home': (context) =>  HomePage(),
+      // },
     );
   }
 }

@@ -3,10 +3,7 @@ part 'weather_model.g.dart';
 
 @JsonSerializable()
 class WeatherModel {
-  double latitude;
-  double longitude;
   String location;
-  String cityName;
   String wind;
   String humidity;
   @JsonKey(name: 'temp')
@@ -15,10 +12,7 @@ class WeatherModel {
   String weatherDescription;
 
   WeatherModel({
-    required this.latitude,
-    required this.longitude,
     required this.location,
-    required this.cityName,
     required this.wind,
     required this.humidity,
     required this.temperature,

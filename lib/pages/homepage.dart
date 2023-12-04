@@ -1,22 +1,47 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:weather_app/api/weatherinfo.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:weather_app/models/weather_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
+
 class _HomePageState extends State<HomePage> {
+   Position? position;
+   WeatherModel? weather;
+  
+  Future<void> getPosition() async {
+    position =  await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.medium);
+    print(position);
+    try{
+      print(position!.latitude);
+      print(position!.longitude);
+    final weather = await WeatherInfo.fetchdata(latitude: position!.latitude, longitude: position!.longitude); 
+    }catch(e){
+      print(e);
+    }
+      setState(() {
+        // print(weather.location);
+      });
+
+  }
+  @override
+  void initState() {
+    getPosition();
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
     var time = DateTime.now();
     Size size = MediaQuery.of(context).size;
-    Map data = ModalRoute.of(context)!.settings.arguments as Map;
-    print('Received arguments: $data');
 
     return Scaffold(
       body: SafeArea(
@@ -29,14 +54,14 @@ class _HomePageState extends State<HomePage> {
                   height: size.height,
                   width: size.width,
                   decoration: const BoxDecoration(
-                    color: Colors.black,
-                    backgroundBlendMode: BlendMode.darken,
                     image: DecorationImage(
                       image: AssetImage(
                         'assets/images/few_clouds.jpg',
                       ),
                       fit: BoxFit.cover,
                     ),
+                    color: Colors.black,
+                    backgroundBlendMode: BlendMode.darken,
 
                     // gradient: LinearGradient(
                     //   begin: Alignment.topCenter,
@@ -78,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                                       Expanded(
                                         flex: 2,
                                         child: SizedBox(
-                                          child: Text('Pokhara',
+                                          child: Text(weather?.location??'',
                                               style: GoogleFonts.lato(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w300,
@@ -538,7 +563,7 @@ class _HomePageState extends State<HomePage> {
                                 child: const CircleAvatar(
                                   radius: 30,
                                   backgroundImage:
-                                      AssetImage('assets/logoimage.jpg'),
+                                      AssetImage('assets/images/logoimage.jpg'),
                                   backgroundColor: Colors.transparent,
                                 ),
                               ),
