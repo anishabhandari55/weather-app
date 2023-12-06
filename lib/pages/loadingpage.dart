@@ -1,65 +1,47 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:weather_app/api/weatherinfo.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:weather_app/pages/homepage.dart';
 
 class LoadingPage extends StatefulWidget {
-  const LoadingPage({super.key});
+  const LoadingPage({Key? key}) : super(key: key);
+  //const LoadingPage({Key? key}) : super(key: key);
 
   @override
   State<LoadingPage> createState() => _LoadingPageState();
 }
 
-class _LoadingPageState extends State<LoadingPage> with SingleTickerProviderStateMixin {
+class _LoadingPageState extends State<LoadingPage> {
 
-//   void startApp(BuildContext context) async {
-//     try {
-//       Position position = await getPosition();
-//       WeatherInfo.fetchdata(latitude: position.latitude, longitude: position.longitude);
-//       Navigator.pushReplacementNamed(context, '/home');
-//     } catch (e) {
-//       print('Error- $e');
-//     }
-//   }
+  Future<void> checkPermission (BuildContext context, Permission permission) async{
+    try{
+    final status = await permission.request();
+    print(status);
+    if(status.isGranted){
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission granted')));
+      setState(() {
+        Navigator.pushReplacementNamed(context, '/home');
+      });
+    } else{
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission denied')));
+    }
+    }catch(e){
+      print('Error- $e');
+    }
+  }
 
- 
-// Future<Position> getPosition() async {
-//   bool serviceEnabled;
-//   LocationPermission permission;
-
-//   serviceEnabled = await Geolocator.isLocationServiceEnabled();
-//   if (!serviceEnabled) {
-//     return Future.error('Location services are disabled.');
-//   }
-
-//   permission = await Geolocator.checkPermission();
-//   if (permission == LocationPermission.denied) {
-//     permission = await Geolocator.requestPermission();
-//     if (permission == LocationPermission.denied) {
-//       return Future.error('Location permissions are denied');
-//     }
-//   }
-  
-//   if (permission == LocationPermission.deniedForever) {
-//     return Future.error(
-//       'Location permissions are permanently denied, we cannot request permissions.');
-//   } 
-//   return await Geolocator.getCurrentPosition();
-// }
-//       // return await Geolocator.getCurrentPosition(
-//       //     desiredAccuracy: LocationAccuracy.medium); // unless exact location required low/medium is recommended
 
   @override
   void initState() {
     super.initState();
-
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    checkPermission(context, Permission.location);
+    Future.delayed(Duration(seconds: 5), () {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    });
   }
 
   @override
@@ -132,14 +114,9 @@ class _LoadingPageState extends State<LoadingPage> with SingleTickerProviderStat
                         height: size.height * 0.245,
                       ),
                       const SpinKitFadingCircle(
-                        color: Colors.white,
-                        size: 50.0,
-                      ),
-                      SpinKitSquareCircle(
                           color: Colors.white,
                           size: 50.0,
-                          controller: AnimationController(vsync: this, duration: const Duration(milliseconds: 1200)),
-
+                          // controller: AnimationController(vsync: this, duration: const Duration(seconds: 1200)),
                           )
 
                     ],
