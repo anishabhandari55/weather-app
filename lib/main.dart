@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/hidden_drawer.dart';
+import 'package:weather_app/pages/citylocationpage.dart';
 import 'package:weather_app/pages/homepage.dart';
 import 'package:weather_app/pages/loadingpage.dart';
 import 'package:weather_app/pages/locationpage.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       title: 'Weather App',
-      //  home: HomePage(),
+      // home: CityLocation(),
       initialRoute: '/',
       routes: {
         '/': (context) => const LoadingPage(),
