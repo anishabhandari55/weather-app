@@ -12,13 +12,17 @@ class _LocationPageState extends State<LocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      leading: Icon(Icons.arrow_back_ios_new, size: 15, color: Colors.white,),
-      title: Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0,0,8,0),
-          child: InkWell(
-            onTap: (){},
-            child: const TextField(
+        leading: Icon(
+          Icons.arrow_back_ios_new,
+          size: 15,
+          color: Colors.white,
+        ),
+        title: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+            child: InkWell(
+              onTap: () {},
+              child: const TextField(
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Search cities',
@@ -26,13 +30,14 @@ class _LocationPageState extends State<LocationPage> {
                         color: Colors.grey,
                         fontWeight: FontWeight.w400,
                         fontSize: 15,
-                        fontStyle: FontStyle.normal)), 
+                        fontStyle: FontStyle.normal)),
               ),
             ),
-          ),),
-          actions: const [
-            Icon(Icons.search_off),
-          ],
+          ),
+        ),
+        actions: const [
+          Icon(Icons.search_off),
+        ],
       ),
     );
   }
