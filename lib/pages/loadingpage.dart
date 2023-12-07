@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weather_app/pages/homepage.dart';
 
@@ -14,30 +13,31 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-  Future<void> checkPermission(
-      BuildContext context, Permission permission) async {
-    try {
-      final status = await permission.request();
-      print(status);
-      if (status.isGranted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Permission granted')));
-        setState(() {
-          Navigator.pushReplacementNamed(context, '/home');
-        });
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Permission denied')));
-      }
-    } catch (e) {
-      print('Error- $e');
-    }
-  }
+  // Future<void> checkPermission(
+  //     BuildContext context, Permission permission) async {
+  //   //
+  //   try {
+  //     final status = await permission.request();
+  //     print(status);
+  //     if (status.isGranted) {
+  //       ScaffoldMessenger.of(context)
+  //           .showSnackBar(const SnackBar(content: Text('Permission granted')));
+  //       setState(() {
+  //         Navigator.pushReplacementNamed(context, '/home');
+  //       });
+  //     } else {
+  //       ScaffoldMessenger.of(context)
+  //           .showSnackBar(const SnackBar(content: Text('Permission denied')));
+  //     }
+  //   } catch (e) {
+  //     print('Error- $e');
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
-    checkPermission(context, Permission.location);
+    // checkPermission(context, Permission.location);
     Future.delayed(Duration(seconds: 5), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => HomePage()),

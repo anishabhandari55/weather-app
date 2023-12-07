@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/hidden_drawer.dart';
 import 'package:weather_app/pages/citylocationpage.dart';
 import 'package:weather_app/pages/homepage.dart';
 import 'package:weather_app/pages/loadingpage.dart';
+import 'package:weather_app/pages/citylocationpage.dart';
 import 'package:weather_app/pages/locationpage.dart';
 
 void main() {
