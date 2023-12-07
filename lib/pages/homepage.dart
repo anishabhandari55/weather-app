@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   Position? position;
   WeatherModel? weather;
 
-  Future<WeatherModel> getPosition() async {
+  Future<void> getPosition() async {
     final status = await Permission.location.request();
     print("status: $status");
 
@@ -28,9 +28,11 @@ class _HomePageState extends State<HomePage> {
         desiredAccuracy: LocationAccuracy.medium);
     print(position);
     try {
-      final weather = await WeatherInfo.fetchdata(
+      final fetched_weather = await WeatherInfo.fetchdata(
           latitude: position!.latitude, longitude: position!.longitude);
-      return weather;
+      print("Weater data after fetch: \n ${fetched_weather.toJson()}");
+      weather = fetched_weather;
+      setState(() {});
     } catch (e) {
       print('Error- $e');
       throw e;
@@ -97,6 +99,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     // checkPermission(context, Permission.location);
     getPosition();
+    setState(() {});
   }
 
   // final List<Map<String, dynamic>> gridData = [
@@ -194,22 +197,38 @@ class _HomePageState extends State<HomePage> {
                                     Container(
                                       child: Row(
                                         children: [
-                                          Text(
-                                            '26\u00B0',
-                                            style: GoogleFonts.crimsonText(
-                                                color: Colors.white,
-                                                fontSize: 70,
-                                                fontWeight: FontWeight.w600),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${weather?.main.temp ?? 0}\u00B0',
+                                                style: GoogleFonts.crimsonText(
+                                                    color: Colors.white,
+                                                    fontSize: 70,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              // const SizedBox(height: 5),
+                                              Text(
+                                                'Feels like: ${weather?.main.feelsLike ?? 0}\u00B0C',
+                                                style: GoogleFonts.crimsonText(
+                                                    color: Colors.white,
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
                                           ),
                                           const SizedBox(
                                             width: 20,
                                           ),
                                           Text(
-                                            'Clear',
+                                            '${weather?.weather.first.main ?? ''}',
                                             style: GoogleFonts.lato(
                                                 color: Colors.white,
                                                 fontSize: 18,
-                                                fontWeight: FontWeight.w300),
+                                                fontWeight: FontWeight.w700),
                                           ),
 
                                           //
@@ -233,8 +252,7 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     CircleAvatar(
                                         radius: 18,
-                                        backgroundColor:
-                                            Color.fromARGB(255, 253, 229, 228),
+                                        backgroundColor: Colors.blueGrey,
                                         // child: GestureDetector(
                                         // onTap: () {
                                         //   Navigator.of(context).push(
@@ -249,28 +267,34 @@ class _HomePageState extends State<HomePage> {
                                         // ),
 
                                         child: IconButton(
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll(
+                                                      Colors.blueGrey),
+                                            ),
                                             onPressed: () {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           LocationPage()));
                                             },
-                                            hoverColor: Colors.grey,
-                                            focusColor: Colors.white,
+                                            // hoverColor: Colors.grey,
+                                            // focusColor: Colors.white,
                                             icon: Icon(
                                               Icons.location_on,
+                                              color: Colors.white,
                                               size: 15,
                                             ))),
                                     SizedBox(width: 10),
                                     CircleAvatar(
                                         radius: 18,
-                                        backgroundColor: Colors.white,
+                                        backgroundColor: Colors.blueGrey,
                                         child: IconButton(
                                             onPressed: null,
                                             icon: Icon(
                                               Icons.home_outlined,
                                               size: 15,
-                                              color: Colors.black,
+                                              color: Colors.white,
                                             )))
                                   ],
                                 ),
@@ -282,7 +306,7 @@ class _HomePageState extends State<HomePage> {
                                   padding:
                                       const EdgeInsets.fromLTRB(8, 2, 8, 2),
                                   decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 242, 191, 187),
+                                    color: Colors.teal,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(15)),
                                   ),
@@ -297,7 +321,7 @@ class _HomePageState extends State<HomePage> {
                                   height: 8,
                                 ),
                                 Text(
-                                  '3.4 km/h',
+                                  '${weather?.wind.speed ?? 1 * 0.8} km/h',
                                   textAlign: TextAlign.end,
                                   style: GoogleFonts.crimsonText(
                                       color: Colors.white,
@@ -313,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                                     padding:
                                         const EdgeInsets.fromLTRB(8, 2, 8, 2),
                                     decoration: const BoxDecoration(
-                                      color: Color.fromARGB(255, 242, 191, 187),
+                                      color: Colors.teal,
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(15)),
                                     ),
@@ -329,7 +353,7 @@ class _HomePageState extends State<HomePage> {
                                   height: 8,
                                 ),
                                 Text(
-                                  '78%',
+                                  '${weather?.main.humidity ?? 0}%',
                                   textAlign: TextAlign.end,
                                   style: GoogleFonts.crimsonText(
                                       color: Colors.white,
@@ -342,9 +366,10 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
+
                     // kbhbhvgbjnjn
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(60, 5, 60, 5),
+                      padding: const EdgeInsets.fromLTRB(5, 5, 30, 5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -710,4 +735,12 @@ class _HomePageState extends State<HomePage> {
 //     default:
 //       return 'assets/images/default_background.jpg'; // Default image
 //   }
+}
+
+String convertSunriseToAmPm(int? timestamp) {
+  if (timestamp == null) {
+    return 'N/A';
+  }
+  final dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  return DateFormat.jm().format(dateTime); // Format as time (AM/PM)
 }
