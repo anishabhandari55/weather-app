@@ -148,15 +148,15 @@ class _HomePageState extends State<HomePage> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Location: ${weather.location ?? 'N/A'}'),
-                Text('Temperature: ${weather.temperature ?? 'N/A'}°C'),
+                Text('Location: ${weather.sys.country ?? 'N/A'}'),
+                Text('Temperature: ${weather.main.temp ?? 'N/A'}°C'),
                 Text(
-                    'Sunrise: ${weather.sunrise != null ? _convertTimestampToTime(weather.sunrise) : 'N/A'}'),
+                    'Sunrise: ${weather.sys.sunrise != null ? _convertTimestampToTime(weather.sys.sunrise) : 'N/A'}'),
                 Text(
-                    'Sunset: ${weather.sunset != null ? _convertTimestampToTime(weather.sunset) : 'N/A'}'),
+                    'Sunset: ${weather.sys.sunset != null ? _convertTimestampToTime(weather.sys.sunset) : 'N/A'}'),
                 Icon(
                   weather != null
-                      ? _getWeatherIcon(weather.weatherType ?? '') as IconData?
+                      ? _getWeatherIcon(weather.weather.first.description ?? '') as IconData?
                       : Icons.error,
                 ),
               ],
