@@ -14,24 +14,25 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-
-  Future<void> checkPermission (BuildContext context, Permission permission) async{
-    try{
-    final status = await permission.request();
-    print(status);
-    if(status.isGranted){
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission granted')));
-      setState(() {
-        Navigator.pushReplacementNamed(context, '/home');
-      });
-    } else{
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission denied')));
-    }
-    }catch(e){
+  Future<void> checkPermission(
+      BuildContext context, Permission permission) async {
+    try {
+      final status = await permission.request();
+      print(status);
+      if (status.isGranted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Permission granted')));
+        setState(() {
+          Navigator.pushReplacementNamed(context, '/home');
+        });
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Permission denied')));
+      }
+    } catch (e) {
       print('Error- $e');
     }
   }
-
 
   @override
   void initState() {
@@ -92,7 +93,8 @@ class _LoadingPageState extends State<LoadingPage> {
                   BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 75.0, sigmaY: 75.0),
                     child: Container(
-                      decoration: const BoxDecoration(color: Colors.transparent),
+                      decoration:
+                          const BoxDecoration(color: Colors.transparent),
                     ),
                   ),
                   Center(
@@ -114,11 +116,10 @@ class _LoadingPageState extends State<LoadingPage> {
                         height: size.height * 0.245,
                       ),
                       const SpinKitFadingCircle(
-                          color: Colors.white,
-                          size: 50.0,
-                          // controller: AnimationController(vsync: this, duration: const Duration(seconds: 1200)),
-                          )
-
+                        color: Colors.white,
+                        size: 50.0,
+                        // controller: AnimationController(vsync: this, duration: const Duration(seconds: 1200)),
+                      )
                     ],
                   )),
                 ],

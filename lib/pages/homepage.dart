@@ -30,34 +30,36 @@ class _HomePageState extends State<HomePage> {
     try {
       final weather = await WeatherInfo.fetchdata(
           latitude: position!.latitude, longitude: position!.longitude);
-           print(weather.weatherDescription);
+      print(weather.weatherDescription);
       setState(() {
-      this.weather = weather;
-      print(this.weather!.location);
-    });
+        this.weather = weather;
+        print(this.weather!.location);
+      });
     } catch (e) {
       print('Error- $e');
     }
   }
 
-  Future<void> checkPermission (BuildContext context, Permission permission) async{
-    try{
-    final status = await permission.request();
-    print(status);
-    if(status.isGranted){
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission granted')));
-      setState(() {
-        Navigator.pushReplacementNamed(context, '/home');
-      });
-    } else{
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission denied')));
-    }
-    }catch(e){
+  Future<void> checkPermission(
+      BuildContext context, Permission permission) async {
+    try {
+      final status = await permission.request();
+      print(status);
+      if (status.isGranted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Permission granted')));
+        setState(() {
+          Navigator.pushReplacementNamed(context, '/home');
+        });
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Permission denied')));
+      }
+    } catch (e) {
       print('Error $e');
     }
   }
 
-  
   String getBackgroundImage(String? weatherType) {
     switch (weatherType) {
       case 'Clear':
@@ -71,28 +73,27 @@ class _HomePageState extends State<HomePage> {
         return 'assets/images/normal.jpg'; // Default image
     }
   }
-  String _getDayOfWeek(int day){
-    switch(day){
+
+  String _getDayOfWeek(int day) {
+    switch (day) {
       case 1:
-      return 'Monday';
+        return 'Monday';
       case 2:
-      return 'Tuesday';
+        return 'Tuesday';
       case 3:
-      return 'Wednesday';
+        return 'Wednesday';
       case 4:
-      return 'Thursday';
+        return 'Thursday';
       case 5:
-      return 'Friday';
+        return 'Friday';
       case 6:
-      return 'Saturday';
+        return 'Saturday';
       case 7:
-      return 'Sunday';
-    default:
-      return '';
+        return 'Sunday';
+      default:
+        return '';
     }
   }
-  
-  
 
   @override
   void initState() {
@@ -100,6 +101,15 @@ class _HomePageState extends State<HomePage> {
     checkPermission(context, Permission.location);
     getPosition();
   }
+
+  // final List<Map<String, dynamic>> gridData = [
+  //   {'icon': Icons.home, 'text': 'Home'},
+  //   {'icon': Icons.work, 'text': 'Work'},
+  //   {'icon': Icons.school, 'text': 'School'},
+  //   {'icon': Icons.favorite, 'text': 'Favorite'},
+  //   {'icon': Icons.music_note, 'text': 'Music'},
+  //   {'icon': Icons.shopping_cart, 'text': 'Shopping'},
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -111,14 +121,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   systemOverlayStyle:
-      //       const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
-      //   leading: mydrawer(onPressed: () => Navigator.push(context,
-      //         MaterialPageRoute(builder: (context) => const HiddenDrawer())), pages: [],)
-      // ),
       body: SafeArea(
         child: Container(
             height: size.height,
@@ -131,147 +133,146 @@ class _HomePageState extends State<HomePage> {
                   width: size.width,
                   fit: BoxFit.cover,
                 ),
-                Container(color: Colors.black.withOpacity(0.4),),
-                Column(
-                  children: [
-                    // Container
-                    // (
-                    //   height: size.height*0.1,
-                    //   width: size.width*0.8,
-                    //   child: mydrawer(onPressed: () => Navigator.push(context,
-                    //          MaterialPageRoute(builder: (context) => const HiddenDrawer())), pages: pages,),
-                    // ),
-                      SizedBox(height: 20),    
-                    Flexible(
-                      flex: 6,
-                      child: Container(
+                Container(
+                  color: Colors.black.withOpacity(0.4),
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
                                 padding: EdgeInsets.fromLTRB(15, 22, 15, 15),
                                 child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: SizedBox(
-                                          child:
-                                              Text('${time.hour}:${time.minute}',
-                                                  style: GoogleFonts.crimsonText(
-                                                    color: Colors.white,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w500,
-                                                  )),
-                                        ),
+                                      SizedBox(height: 5),
+                                      SizedBox(
+                                        child:
+                                            Text('${time.hour}:${time.minute}',
+                                                style: GoogleFonts.crimsonText(
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w500,
+                                                )),
                                       ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: SizedBox(
-                                          child: Text(weather?.location ?? 'Bharatpur',
-                                              style: GoogleFonts.lato(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w300,
-                                                fontSize: 40,
-                                              )),
-                                        ),
+                                      SizedBox(height: 20),
+                                      SizedBox(
+                                        child: Text(
+                                            weather?.location ?? 'Bharatpur',
+                                            style: GoogleFonts.lato(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 50,
+                                            )),
                                       ),
                                       Container(
                                         color: Colors.white,
                                         height: 0.5,
-                                        width: 180,
+                                        width: 220,
                                       ),
-                                      const SizedBox(height: 5),
-                                      Expanded(
-                                        flex: 1,
-                                        child: SizedBox(
-                                          child: Row(
-                                            children: [
-                                              Text(dayName,
-                                                  style: GoogleFonts.lato(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w300)),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                  '${time.month}.${time.day}.${time.year}',
-                                                  style: GoogleFonts.crimsonText(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w300)),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 3,
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                '26\u00B0',
-                                                style: GoogleFonts.crimsonText(
-                                                    color: Colors.white,
-                                                    fontSize: 70,
-                                                    fontWeight: FontWeight.w600),
-                                              ),
-                                              const SizedBox(
-                                                width: 35,
-                                              ),
-                                              Text(
-                                                'Clear',
+                                      SizedBox(height: 5),
+                                      SizedBox(
+                                        child: Row(
+                                          children: [
+                                            Text(dayName,
                                                 style: GoogleFonts.lato(
                                                     color: Colors.white,
-                                                    fontSize: 22,
+                                                    fontSize: 20,
                                                     fontWeight:
-                                                        FontWeight.normal),
-                                              ),
-                
-                                              //
-                                            ],
-                                          ),
+                                                        FontWeight.w300)),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                                '${time.month}.${time.day}.${time.year}',
+                                                style: GoogleFonts.crimsonText(
+                                                    color: Colors.white,
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.w300)),
+                                          ],
                                         ),
                                       ),
-                                      Expanded(
-                                        flex: 7,
-                                        child: Container(
-                                          child: Text(
-                                            "It's\nSunny\nOut\n",
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w300,
-                                              fontSize: 45,
+                                      SizedBox(height: 25),
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              '26\u00B0',
+                                              style: GoogleFonts.crimsonText(
+                                                  color: Colors.white,
+                                                  fontSize: 70,
+                                                  fontWeight: FontWeight.w600),
                                             ),
-                                          ),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                            Text(
+                                              'Clear',
+                                              style: GoogleFonts.lato(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w300),
+                                            ),
+
+                                            //
+                                          ],
                                         ),
-                                      )
+                                      ),
+                                      const SizedBox(height: 25),
+
+                                      // Container(
+                                      //   color: Colors.white,
+                                      //   height: 0.5,
+                                      //   width: 300,
+                                      // ),
                                     ])),
                             Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 20),
                               child: Column(
                                 children: [
-                                  const Row(
+                                  Row(
                                     children: [
                                       CircleAvatar(
-                                          radius: 15,
-                                          backgroundColor:
-                                              Color.fromARGB(255, 253, 229, 228),
+                                          radius: 18,
+                                          backgroundColor: Color.fromARGB(
+                                              255, 253, 229, 228),
+                                          // child: GestureDetector(
+                                          // onTap: () {
+                                          //   Navigator.of(context).push(
+                                          //       MaterialPageRoute(
+                                          //           builder: (context) =>
+                                          //               LocationPage()));
+                                          // },
+                                          //   child: Icon(
+                                          //     Icons.location_on,
+                                          //     size: 15,
+                                          //   ),
+                                          // ),
+
                                           child: IconButton(
-                                            onPressed: null,
-                                            icon: Icon(
-                                              Icons.settings,
-                                              size: 15,
-                                            ),
-                                          )),
+                                              onPressed: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            LocationPage()));
+                                              },
+                                              hoverColor: Colors.grey,
+                                              focusColor: Colors.white,
+                                              icon: Icon(
+                                                Icons.location_on,
+                                                size: 15,
+                                              ))),
+                                      SizedBox(width: 10),
                                       CircleAvatar(
-                                          radius: 15,
+                                          radius: 18,
                                           backgroundColor: Colors.white,
                                           child: IconButton(
                                               onPressed: null,
@@ -286,7 +287,7 @@ class _HomePageState extends State<HomePage> {
                                     height: 60,
                                   ),
                                   Container(
-                                    height: 20,
+                                    height: 25,
                                     padding:
                                         const EdgeInsets.fromLTRB(8, 2, 8, 2),
                                     decoration: const BoxDecoration(
@@ -298,7 +299,7 @@ class _HomePageState extends State<HomePage> {
                                         textAlign: TextAlign.end,
                                         style: GoogleFonts.lato(
                                             color: Colors.white,
-                                            fontSize: 12,
+                                            fontSize: 15,
                                             fontWeight: FontWeight.w500)),
                                   ),
                                   const SizedBox(
@@ -317,19 +318,20 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   UnconstrainedBox(
                                     child: Container(
-                                      height: 20,
+                                      height: 25,
                                       padding:
                                           const EdgeInsets.fromLTRB(8, 2, 8, 2),
                                       decoration: const BoxDecoration(
-                                        color: Color.fromARGB(255, 242, 191, 187),
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(15)),
+                                        color:
+                                            Color.fromARGB(255, 242, 191, 187),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15)),
                                       ),
                                       child: Text('Humidity',
                                           textAlign: TextAlign.end,
                                           style: GoogleFonts.lato(
                                               color: Colors.white,
-                                              fontSize: 12,
+                                              fontSize: 15,
                                               fontWeight: FontWeight.w500)),
                                     ),
                                   ),
@@ -350,293 +352,276 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                    ),
-                    Flexible(
-                      flex: 2,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 10),
-                        child: Column(
+                      // kbhbhvgbjnjn
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(60, 5, 60, 5),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             divider(),
-                            Expanded(
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 15),
-                                child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: [
-                                    Container(
-                                      width: 100,
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Today',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          Text('10\u00B0',
-                                              style:
-                                                  TextStyle(color: Colors.white)),
-                                          Text(
-                                            'Clear',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 100,
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Today',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          Text('10\u00B0',
-                                              style:
-                                                  TextStyle(color: Colors.white)),
-                                          Text(
-                                            'Clear',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 100,
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Today',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          Text('10\u00B0',
-                                              style:
-                                                  TextStyle(color: Colors.white)),
-                                          Text(
-                                            'Clear',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 100,
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Today',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          Text('10\u00B0',
-                                              style:
-                                                  TextStyle(color: Colors.white)),
-                                          Text(
-                                            'Clear',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 100,
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Today',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          Text('10\u00B0',
-                                              style:
-                                                  TextStyle(color: Colors.white)),
-                                          Text(
-                                            'Clear',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 100,
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Today',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          Text(
-                                            '10\u00B0',
-                                            style: TextStyle(color: Colors.white),
-                                          ),
-                                          Text(
-                                            'Clear',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 100,
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Today',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          Text('10\u00B0',
-                                              style:
-                                                  TextStyle(color: Colors.white)),
-                                          Text(
-                                            'Clear',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.white,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            divider(),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 3,
-                      child: Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.all(17),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(40)),
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/map.jpg'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
                             Row(
                               children: [
-                                Container(
-                                  height: 40,
-                                  width: 130,
-                                  margin:
-                                      const EdgeInsets.fromLTRB(25, 25, 0, 25),
-                                  decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(40)),
-                                    color: Colors.white,
-                                  ),
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 18.0, vertical: 9.0),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: 'add location',
-                                          hintStyle: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 18,
-                                              fontStyle: FontStyle.italic)),
-                                    ),
-                                  ),
+                                SizedBox(width: 40),
+                                Text(
+                                  "Thursday",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
                                 ),
-                                const CircleAvatar(
-                                  radius: 20.0,
-                                  child: Icon(
-                                    CupertinoIcons.location_solid,
-                                    color: Colors.black,
-                                    size: 22.0,
-                                  ),
-                                  backgroundColor: Colors.white,
-                                )
+                                SizedBox(width: 75),
+                                IconButton(
+                                    onPressed: null,
+                                    icon: Icon(
+                                      Icons.sunny,
+                                      size: 20,
+                                      color: Colors.yellow,
+                                    )),
+                                SizedBox(width: 75),
+                                Text(
+                                  "11\u00B0  21\u00B0",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
                               ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(25, 35, 25, 25),
-                              child: Container(
-                                width: 70.0,
-                                height: 70.0,
-                                decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: const Color.fromARGB(
-                                          255, 220, 217, 217),
-                                      width: 2.0,
-                                      style: BorderStyle.solid,
-                                    )),
-                                child: const CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage:
-                                      AssetImage('assets/images/logoimage.jpg'),
-                                  backgroundColor: Colors.transparent,
+                            Row(
+                              children: [
+                                SizedBox(width: 40),
+                                Text(
+                                  "Friday",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
                                 ),
-                              ),
+                                SizedBox(width: 96),
+                                IconButton(
+                                    onPressed: null,
+                                    icon: Icon(
+                                      Icons.sunny,
+                                      size: 20,
+                                      color: Colors.yellow,
+                                    )),
+                                SizedBox(width: 75),
+                                Text(
+                                  "11\u00B0  22\u00B0",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(width: 40),
+                                Text(
+                                  "Saturday",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                                SizedBox(width: 79),
+                                IconButton(
+                                    onPressed: null,
+                                    icon: Icon(
+                                      Icons.sunny,
+                                      size: 20,
+                                      color: Colors.yellow,
+                                    )),
+                                SizedBox(width: 75),
+                                Text(
+                                  "11\u00B0  21\u00B0",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(width: 40),
+                                Text(
+                                  "Sunday",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                                SizedBox(width: 90),
+                                IconButton(
+                                    onPressed: null,
+                                    icon: Icon(
+                                      Icons.sunny,
+                                      size: 20,
+                                      color: Colors.yellow,
+                                    )),
+                                SizedBox(width: 75),
+                                Text(
+                                  "10\u00B0  19\u00B0",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(width: 40),
+                                Text(
+                                  "Monday",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                                SizedBox(width: 87),
+                                IconButton(
+                                    onPressed: null,
+                                    icon: Icon(
+                                      Icons.sunny,
+                                      size: 20,
+                                      color: Colors.yellow,
+                                    )),
+                                SizedBox(width: 75),
+                                Text(
+                                  "11\u00B0  20\u00B0",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(width: 40),
+                                Text(
+                                  "Tuesday",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                                SizedBox(width: 84),
+                                IconButton(
+                                    onPressed: null,
+                                    icon: Icon(
+                                      Icons.sunny,
+                                      size: 20,
+                                      color: Colors.yellow,
+                                    )),
+                                SizedBox(width: 75),
+                                Text(
+                                  "11\u00B0  22\u00B0",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(width: 40),
+                                Text(
+                                  "Wednesday",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                                SizedBox(width: 65),
+                                IconButton(
+                                    onPressed: null,
+                                    icon: Icon(
+                                      Icons.sunny,
+                                      size: 20,
+                                      color: Colors.yellow,
+                                    )),
+                                SizedBox(width: 75),
+                                Text(
+                                  "8\u00B0  23\u00B0",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ],
+                            ),
+                            // Row(
+                            //   children: [
+                            //     SizedBox(width: 80),
+                            //     Text(
+                            //       "Thursday",
+                            //       style: TextStyle(
+                            //           fontSize: 15,
+                            //           color: Colors.white,
+                            //           fontWeight: FontWeight.w300),
+                            //     ),
+                            //     SizedBox(width: 43),
+                            //     IconButton(
+                            //         onPressed: null,
+                            //         icon: Icon(
+                            //           Icons.sunny,
+                            //           size: 20,
+                            //           color: Colors.yellow,
+                            //         )),
+                            //     SizedBox(width: 40),
+                            //     Text(
+                            //       "9\u00B0  25\u00B0",
+                            //       style: TextStyle(
+                            //           fontSize: 15,
+                            //           color: Colors.white,
+                            //           fontWeight: FontWeight.w300),
+                            //     ),
+                            //   ],
+                            // ),
+                            // Row(
+                            //   children: [
+                            //     SizedBox(width: 80),
+                            //     Text(
+                            //       "Friday",
+                            //       style: TextStyle(
+                            //           fontSize: 15,
+                            //           color: Colors.white,
+                            //           fontWeight: FontWeight.w300),
+                            //     ),
+                            //     SizedBox(width: 66),
+                            //     IconButton(
+                            //         onPressed: null,
+                            //         icon: Icon(
+                            //           Icons.sunny,
+                            //           size: 20,
+                            //           color: Colors.yellow,
+                            //         )),
+                            //     SizedBox(width: 40),
+                            //     Text(
+                            //       "10\u00B0  27\u00B0",
+                            //       style: TextStyle(
+                            //           fontSize: 15,
+                            //           color: Colors.white,
+                            //           fontWeight: FontWeight.w300),
+                            //     ),
+                            //   ],
+                            // ),
+                            SizedBox(height: 5),
+                            divider(),
+                            SizedBox(height: 25),
+                            Column(
+                              children: [],
                             )
                           ],
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 )
               ],
             )),
@@ -656,26 +641,26 @@ class divider extends StatelessWidget {
       color: Colors.white,
       indent: 20,
       endIndent: 20,
-      thickness: 1.0,
+      thickness: 0.5,
       height: 0.5,
     );
   }
 }
 
 String getBackgroundImage(String? weatherType) {
-    switch (weatherType) {
-      case 'Clear':
-        return 'assets/images/clear_sky.jpg';
-      case 'Clouds':
-        return 'assets/images/cloudy.jpg';
-      // Add more cases for other weather types...
+  switch (weatherType) {
+    case 'Clear':
+      return 'assets/images/clear_sky.jpg';
+    case 'Clouds':
+      return 'assets/images/cloudy.jpg';
+    // Add more cases for other weather types...
 
-      default:
-        return 'assets/images/default_background.jpg'; // Default image
-    }
+    default:
+      return 'assets/images/default_background.jpg'; // Default image
   }
+}
 
-  class mydrawer extends StatelessWidget {
+class mydrawer extends StatelessWidget {
   const mydrawer({
     super.key,
     required this.pages,

@@ -6,7 +6,6 @@ import 'package:weather_app/pages/loadingpage.dart';
 import 'package:weather_app/pages/locationpage.dart';
 
 void main() {
-  
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const LoadingPage(),
-        '/home': (context) =>  HomePage(),
+        '/home': (context) => HomePage(),
         '/addlocation': (context) => LocationPage(),
       },
     );
