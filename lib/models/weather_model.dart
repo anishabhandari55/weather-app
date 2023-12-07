@@ -2,7 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'weather_model.g.dart';
 
-
 @JsonSerializable(explicitToJson: true)
 class WeatherModel {
   Coord coord;
@@ -30,6 +29,7 @@ class WeatherModel {
   // from json
   factory WeatherModel.fromJson(Map<String, dynamic> json) =>
       _$WeatherModelFromJson(json);
+  Map<String, dynamic> toJson() => _$WeatherModelToJson(this);
 }
 
 @JsonSerializable()
@@ -43,6 +43,8 @@ class Coord {
   });
 
   factory Coord.fromJson(Map<String, dynamic> json) => _$CoordFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CoordToJson(this);
 }
 
 @JsonSerializable()
@@ -61,20 +63,25 @@ class WeatherItem {
 
   factory WeatherItem.fromJson(Map<String, dynamic> json) =>
       _$WeatherItemFromJson(json);
+  Map<String, dynamic> toJson() => _$WeatherItemToJson(this);
 }
 
 @JsonSerializable()
 class Main {
   double temp;
+  @JsonKey(name: 'feels_like')
   double feelsLike;
+  @JsonKey(name: 'temp_min')
   double tempMin;
+  @JsonKey(name: 'temp_max')
   double tempMax;
   int pressure;
   int humidity;
-  @JsonKey(name: 'sea_level')
-  int seaLevel;
-  @JsonKey(name: 'grnd_level')
-  int groundLevel;
+
+  // @JsonKey(name: 'sea_level')
+  // int seaLevel;
+  // @JsonKey(name: 'grnd_level')
+  // int groundLevel;
 
   Main({
     required this.temp,
@@ -83,26 +90,28 @@ class Main {
     required this.tempMax,
     required this.pressure,
     required this.humidity,
-    required this.seaLevel,
-    required this.groundLevel,
+    // required this.seaLevel,
+    // required this.groundLevel,
   });
 
   factory Main.fromJson(Map<String, dynamic> json) => _$MainFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MainToJson(this);
 }
 
 @JsonSerializable()
 class Wind {
   double speed;
   int deg;
-  double gust;
 
   Wind({
     required this.speed,
     required this.deg,
-    required this.gust,
   });
 
   factory Wind.fromJson(Map<String, dynamic> json) => _$WindFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WindToJson(this);
 }
 
 @JsonSerializable()
@@ -114,6 +123,8 @@ class Clouds {
   });
 
   factory Clouds.fromJson(Map<String, dynamic> json) => _$CloudsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CloudsToJson(this);
 }
 
 @JsonSerializable()
@@ -129,6 +140,8 @@ class Sys {
   });
 
   factory Sys.fromJson(Map<String, dynamic> json) => _$SysFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SysToJson(this);
 }
 
 

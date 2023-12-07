@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       title: 'Weather App',
-      home: LocationPage(),
+      home: HomePage(),
       // initialRoute: '/',
       // routes: {
       //   '/': (context) => const LoadingPage(),

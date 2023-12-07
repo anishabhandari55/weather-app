@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/api/weatherinfo.dart';
 import 'package:geolocator/geolocator.dart';
@@ -23,6 +20,9 @@ class _HomePageState extends State<HomePage> {
   WeatherModel? weather;
 
   Future<WeatherModel> getPosition() async {
+    final status = await Permission.location.request();
+    print("status: $status");
+
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.medium);
     print(position);
@@ -36,25 +36,25 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> checkPermission(
-      BuildContext context, Permission permission) async {
-    try {
-      final status = await permission.request();
-      print(status);
-      if (status.isGranted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Permission granted')));
-        setState(() {
-          Navigator.pushReplacementNamed(context, '/home');
-        });
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Permission denied')));
-      }
-    } catch (e) {
-      print('Error $e');
-    }
-  }
+  // Future<void> checkPermission(
+  //     BuildContext context, Permission permission) async {
+  //   try {
+  //     final status = await permission.request();
+  //     print(status);
+  //     if (status.isGranted) {
+  //       ScaffoldMessenger.of(context)
+  //           .showSnackBar(const SnackBar(content: Text('Permission granted')));
+  //       setState(() {
+  //         Navigator.pushReplacementNamed(context, '/home');
+  //       });
+  //     } else {
+  //       ScaffoldMessenger.of(context)
+  //           .showSnackBar(const SnackBar(content: Text('Permission denied')));
+  //     }
+  //   } catch (e) {
+  //     print('Error $e');
+  //   }
+  // }
 
   String getBackgroundImage(String? weatherType) {
     switch (weatherType) {
@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    checkPermission(context, Permission.location);
+    // checkPermission(context, Permission.location);
     getPosition();
   }
 
@@ -154,11 +154,12 @@ class _HomePageState extends State<HomePage> {
                     'Sunrise: ${weather.sys.sunrise != null ? _convertTimestampToTime(weather.sys.sunrise) : 'N/A'}'),
                 Text(
                     'Sunset: ${weather.sys.sunset != null ? _convertTimestampToTime(weather.sys.sunset) : 'N/A'}'),
-                Icon(
-                  weather != null
-                      ? _getWeatherIcon(weather.weather.first.description ?? '') as IconData?
-                      : Icons.error,
-                ),
+                // Icon(
+                //   weather != null
+                //       ? _getWeatherIcon(weather.weather.first.description ?? '')
+                //           as IconData?
+                //       : Icons.error,
+                // ),
               ],
             );
           }
